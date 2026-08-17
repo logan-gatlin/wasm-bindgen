@@ -18,13 +18,11 @@
 * Fix `js-sys` wasm64 build with `atomics` feature.
   [#5274](https://github.com/wasm-bindgen/wasm-bindgen/issues/5274)
 
-* Fix `#[wasm_bindgen(generic_per_mono)]` rejecting a type parameter with a
-  default (`T: Bound = Default`), the shape real-world imports like
-  `Atomics::add<T: TypedArray = Int32Array>` use, with
-  `defaults for generic parameters are not allowed here`. The generated
-  wrapper re-declared the parameter list verbatim, including the default,
-  which is never valid on a fn item; the default is now dropped, matching
-  what the type-erasure import path already does.
+* `#[wasm_bindgen(generic_per_mono)]` now rejects a type-parameter default
+  (`T: Bound = Default`) with a clear diagnostic instead of a confusing
+  `defaults for generic parameters are not allowed here` from rustc. The
+  default has no effect either way (Rust never consults it to resolve a
+  generic fn call); drop it from the declaration.
 
 ### Removed
 

@@ -10,6 +10,11 @@ extern "C" {
     #[wasm_bindgen(generic_per_mono)]
     fn without_type_param(x: u32);
 
+    // A type-parameter default has no effect on any Rust fn, generic_per_mono
+    // or not, so it is rejected rather than silently dropped.
+    #[wasm_bindgen(generic_per_mono)]
+    fn defaulted_type_param<T: Clone = JsValue>(x: T);
+
     // Argument-position `impl Trait` desugars to an anonymous type
     // parameter, so this function does have one; it's just nameless, and
     // never shows up in `without_type_param`'s check above. It gets its own
